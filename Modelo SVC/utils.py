@@ -4,6 +4,8 @@ import os
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 
+from sklearn.preprocessing import StandardScaler
+
 import numpy as np
 
 SEED = 20
@@ -29,16 +31,25 @@ dados_uteis = dados.query('horas_esperadas > 0')
 x = dados_uteis[['horas_esperadas', 'preco']]
 y = dados_uteis['finalizados']
 
-treino_x, teste_x, treino_y, teste_y = train_test_split(x, y, test_size=0.2, random_state=SEED, stratify=y)
+raw_treino_x, raw_teste_x, treino_y, teste_y = train_test_split(x, y, test_size=0.2, random_state=SEED, stratify=y)
+
+scaler = StandardScaler()
+scaler.fit(raw_treino_x)
+
+treino_x = scaler.transform(raw_treino_x)
+teste_x = scaler.transform(raw_teste_x)
 
 modelo = SVC(gamma='auto')
 modelo.fit(treino_x, treino_y)
 previsoes = modelo.predict(teste_x)
 
-x_min = teste_x['horas_esperadas'].min()
-x_max = teste_x['horas_esperadas'].max()
-y_min = teste_x['preco'].min()
-y_max = teste_x['preco'].max()
+data_col1 = teste_x[: , 0]
+data_col2 = teste_x[: , 1]
+
+x_min = data_col1.min()
+x_max = data_col1.max()
+y_min = data_col2.min()
+y_max = data_col2.max()
 
 pixels = 100
 
