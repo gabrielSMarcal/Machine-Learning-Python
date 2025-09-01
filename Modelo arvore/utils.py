@@ -2,9 +2,10 @@ from datetime import datetime
 import pandas as pd
 
 from sklearn.metrics import accuracy_score
-from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import graphviz
 
 SEED = 20
 
@@ -24,16 +25,21 @@ raw_treino_x, raw_teste_x, treino_y, teste_y = train_test_split(x, y, test_size=
 
 print(f'Treinaremos com {len(raw_treino_x)} elementos e testaremos com {len(raw_teste_x)} elementos.')
 
-scaler = StandardScaler()
-scaler.fit(raw_treino_x)
+# scaler = StandardScaler()
+# scaler.fit(raw_treino_x)
 
-treino_x = scaler.transform(raw_treino_x)
-teste_x = scaler.transform(raw_teste_x)
+# treino_x = scaler.transform(raw_treino_x)
+# teste_x = scaler.transform(raw_teste_x)
 
-modelo = SVC(gamma='auto')
-modelo.fit(treino_x, treino_y)
-previsoes = modelo.predict(teste_x)
+modelo = DecisionTreeClassifier(max_depth=3)
+modelo.fit(raw_treino_x, treino_y)
+previsoes = modelo.predict(raw_teste_x)
 
 accuracy = accuracy_score(teste_y, previsoes) * 100
 print(f"A acurácia do modelo é: {accuracy:.2f}%")
 
+estrutura = export_graphviz(modelo, filled=True, rounded=True, feature_names=x.columns, class_names=['não vendido', 'vendido'])
+grafico = graphviz.Source(estrutura)
+
+# Renderização do gráfico
+grafico.render(filename='arvore_decisao', format='png', cleanup=True)
