@@ -40,4 +40,9 @@ modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
 # print(modelo_0.params)
 
 # Resumo do modelo
-print(modelo_0.summary())
+# print(modelo_0.summary())
+
+# Observando o R²
+# print(modelo_0.rsquared)
+
+
