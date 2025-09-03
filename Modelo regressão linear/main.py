@@ -45,4 +45,8 @@ modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
 # Observando o R²
 # print(modelo_0.rsquared)
 
-
+# Quem são os residuos
+# print(modelo_0.resid)
+modelo_0.resid.hist()
+plt.title('Distribuição dos resíduos')
+plt.show()
