@@ -36,3 +36,8 @@ df_train['preco_de_venda'] = y_train
 # Ajustando o primeiro modelo
 modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
 
+# Visualizando os parametros
+# print(modelo_0.params)
+
+# Resumo do modelo
+print(modelo_0.summary())
