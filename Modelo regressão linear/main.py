@@ -7,6 +7,8 @@ import pandas as pd
 from statsmodels.formula.api import ols
 from sklearn.model_selection import train_test_split
 
+from sklearn.metrics import r2_score
+
 import utils as u
 
 # Como é a relação entre área construida e o preço do imovel?
@@ -47,6 +49,12 @@ modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
 
 # Quem são os residuos
 # print(modelo_0.resid)
-modelo_0.resid.hist()
-plt.title('Distribuição dos resíduos')
-plt.show()
+# modelo_0.resid.hist()
+# plt.title('Distribuição dos resíduos')
+# plt.show()
+
+# Definindo o Y previsto
+y_predict = modelo_0.predict(x_test)
+
+# Printando o r²
+print(f"R²: {r2_score(y_test, y_predict)}")
