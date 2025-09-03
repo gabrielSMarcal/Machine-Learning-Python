@@ -2,17 +2,37 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+
+import pandas as pd
+from statsmodels.formula.api import ols
+from sklearn.model_selection import train_test_split
+
 import utils as u
 
 # Como é a relação entre área construida e o preço do imovel?
 
-plt.scatter(u.dados['area_primeiro_andar'], u.dados['preco_de_venda'])
-plt.axline(xy1 = (66, 250000), xy2 = (190, 1800000), color='red')
+# plt.scatter(u.dados['area_primeiro_andar'], u.dados['preco_de_venda'])
+# plt.axline(xy1 = (66, 250000), xy2 = (190, 1800000), color='red')
 
-plt.title('Relação entre preço e área')
-plt.xlabel('Área do primeiro andar (m²)')
-plt.ylabel('Preço de venda (R$)')
+# plt.title('Relação entre preço e área')
+# plt.xlabel('Área do primeiro andar (m²)')
+# plt.ylabel('Preço de venda (R$)')
 
-# Qual a reta que melhor se adequa a relação?
-fig = px.scatter(u.dados, x='area_primeiro_andar', y='preco_de_venda', trendline_color_override='red', trendline='ols')
-fig.show()
+# # Qual a reta que melhor se adequa a relação?
+# fig = px.scatter(u.dados, x='area_primeiro_andar', y='preco_de_venda', trendline_color_override='red', trendline='ols')
+# fig.show()
+
+# Definido x e y
+y = u.dados['preco_de_venda']
+x = u.dados.drop(columns='preco_de_venda')
+
+# Aplican do o split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.2, random_state= 230)
+
+# Dados de treino para usar a fórmula
+df_train = pd.DataFrame(data = x_train)
+df_train['preco_de_venda'] = y_train
+
+# Ajustando o primeiro modelo
+modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
+
