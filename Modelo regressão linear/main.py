@@ -94,14 +94,16 @@ modelo_3 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segu
 # print(modelo_3.summary())
 
 # Comparação dos modelos
-print('R²')
-print("modelo 0:", modelo_0.rsquared)
-print("modelo 1:", modelo_1.rsquared)
-print("modelo 2:", modelo_2.rsquared)
-print("modelo 3:", modelo_3.rsquared)
+# print('R²')
+# print("modelo 0:", modelo_0.rsquared)
+# print("modelo 1:", modelo_1.rsquared)
+# print("modelo 2:", modelo_2.rsquared)
+# print("modelo 3:", modelo_3.rsquared)
 
-# Quantos parametros estão no modelo?
-print("modelo 0:", len(modelo_0.params))
-print("modelo 1:", len(modelo_1.params))
-print("modelo 2:", len(modelo_2.params))
-print("modelo 3:", len(modelo_3.params))
+# # Quantos parametros estão no modelo?
+# print("modelo 0:", len(modelo_0.params))
+# print("modelo 1:", len(modelo_1.params))
+# print("modelo 2:", len(modelo_2.params))
+# print("modelo 3:", len(modelo_3.params))
+
+print(modelo_3.params)
