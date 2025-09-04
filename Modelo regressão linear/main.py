@@ -54,7 +54,12 @@ modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
 # plt.show()
 
 # Definindo o Y previsto
-y_predict = modelo_0.predict(x_test)
+# y_predict = modelo_0.predict(x_test)
 
-# Printando o r²
-print(f"R²: {r2_score(y_test, y_predict)}")
+# # Printando o r²
+# print(f"R²: {r2_score(y_test, y_predict)}")
+
+# Outras características
+sns.pairplot(u.dados, y_vars='preco_de_venda',
+             x_vars=['quantidade_banheiros', 'area_segundo_andar','capacidade_carros_garagem'])
+plt.show()
