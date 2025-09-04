@@ -9,6 +9,8 @@ from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import r2_score
 
+import statsmodels.api as sm
+
 import utils as u
 
 # Como é a relação entre área construida e o preço do imovel?
@@ -60,6 +62,33 @@ modelo_0 = ols('preco_de_venda ~ area_primeiro_andar', data=df_train).fit()
 # print(f"R²: {r2_score(y_test, y_predict)}")
 
 # Outras características
-sns.pairplot(u.dados, y_vars='preco_de_venda',
-             x_vars=['quantidade_banheiros', 'area_segundo_andar','capacidade_carros_garagem'])
-plt.show()
+# sns.pairplot(u.dados, y_vars='preco_de_venda',
+#              x_vars=['quantidade_banheiros', 'area_segundo_andar','capacidade_carros_garagem'])
+# plt.show()
+
+# Adicionando constantes
+x_train = sm.add_constant(x_train)
+
+# Criando o modelo de regressão (sem fórmula): saturado
+modelo_1 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar',
+                                    'area_segundo_andar', 'quantidade_banheiros',
+                                    'capacidade_carros_garagem',
+                                    'qualidade_da_cozinha_Excelente']]).fit()
+
+# Modelo sem a área do segundo andar
+modelo_2 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar',
+                                    'quantidade_banheiros','capacidade_carros_garagem',
+                                    'qualidade_da_cozinha_Excelente']]).fit()
+
+# Modelo sem informações sobre garagem
+modelo_3 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segundo_andar',
+                                    'quantidade_banheiros','qualidade_da_cozinha_Excelente']]).fit()
+
+# Resumo do modelo 1
+# print(modelo_1.summary())
+
+# Resumo do modelo 2
+# print(modelo_2.summary())
+
+# Resumo do modelo 3
+print(modelo_3.summary())
