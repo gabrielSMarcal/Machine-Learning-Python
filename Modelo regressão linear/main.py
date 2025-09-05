@@ -149,4 +149,8 @@ predict_3 = modelo_3.predict(x_test[['const', 'area_primeiro_andar', 'existe_seg
 nome_arquivo = 'modelo_regressao_linear.pkl'
 
 with open(nome_arquivo, 'wb') as arquivo:
-    pickle.dump(modelo_3, arquivo)
+   pickle.dump(modelo_3, arquivo)
+   
+# Carregar o modelo de volta do arquivo
+with open(nome_arquivo, 'rb') as arquivo:
+    modelo_carregado = pickle.load(arquivo)
