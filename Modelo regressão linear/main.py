@@ -1,16 +1,14 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
-
 import pickle
-
 import pandas as pd
 from statsmodels.formula.api import ols
 from sklearn.model_selection import train_test_split
-
 from sklearn.metrics import r2_score
-
 import statsmodels.api as sm
+
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 import utils as u
 
@@ -146,11 +144,35 @@ predict_3 = modelo_3.predict(x_test[['const', 'area_primeiro_andar', 'existe_seg
 #     print(f"Preço do imóvel {i+1} pelo modelo 3: R$ {preco:.2f}")
 
 # Salvando modelo em um arquivo
-nome_arquivo = 'modelo_regressao_linear.pkl'
+# nome_arquivo = 'modelo_regressao_linear.pkl'
 
-with open(nome_arquivo, 'wb') as arquivo:
-   pickle.dump(modelo_3, arquivo)
+# with open(nome_arquivo, 'wb') as arquivo:
+#    pickle.dump(modelo_3, arquivo)
    
-# Carregar o modelo de volta do arquivo
-with open(nome_arquivo, 'rb') as arquivo:
-    modelo_carregado = pickle.load(arquivo)
+# # Carregar o modelo de volta do arquivo
+# with open(nome_arquivo, 'rb') as arquivo:
+#     modelo_carregado = pickle.load(arquivo)
+
+explicativas_1 = ['const','area_primeiro_andar', 'existe_segundo_andar',
+       'area_segundo_andar', 'quantidade_banheiros',
+       'capacidade_carros_garagem', 'qualidade_da_cozinha_Excelente']
+             
+explicativas_2 = ['const','area_primeiro_andar', 'existe_segundo_andar',
+       'quantidade_banheiros', 'capacidade_carros_garagem',
+       'qualidade_da_cozinha_Excelente']
+
+explicativas_3 = ['const','area_primeiro_andar', 'existe_segundo_andar',
+       'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']
+
+# VIF 1
+vif_1 = pd.DataFrame()
+vif_1['variavel'] = explicativas_1
+
+vif_1['vif'] = [variance_inflation_factor(x_train[explicativas_1], i) for i in range(len(explicativas_1))]
+# print(vif_1)
+
+# VIF 3
+vif_3 = pd.DataFrame()
+vif_3['variavel'] = explicativas_3
+vif_3['vif'] = [variance_inflation_factor(x_train[explicativas_3], i) for i in range(len(explicativas_3))]
+print(vif_3)
