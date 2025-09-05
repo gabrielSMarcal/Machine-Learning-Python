@@ -164,15 +164,25 @@ explicativas_2 = ['const','area_primeiro_andar', 'existe_segundo_andar',
 explicativas_3 = ['const','area_primeiro_andar', 'existe_segundo_andar',
        'quantidade_banheiros', 'qualidade_da_cozinha_Excelente']
 
-# VIF 1
-vif_1 = pd.DataFrame()
-vif_1['variavel'] = explicativas_1
+# # VIF 1
+# vif_1 = pd.DataFrame()
+# vif_1['variavel'] = explicativas_1
 
-vif_1['vif'] = [variance_inflation_factor(x_train[explicativas_1], i) for i in range(len(explicativas_1))]
+# vif_1['vif'] = [variance_inflation_factor(x_train[explicativas_1], i) for i in range(len(explicativas_1))]
 # print(vif_1)
 
 # VIF 3
 vif_3 = pd.DataFrame()
 vif_3['variavel'] = explicativas_3
 vif_3['vif'] = [variance_inflation_factor(x_train[explicativas_3], i) for i in range(len(explicativas_3))]
-print(vif_3)
+# print(vif_3)
+
+# Prevendo os valores do treino x_train[explicativas_3]
+y_previsto_train = modelo_3.predict(x_train[explicativas_3])
+
+# Fazendo um scatter plot entre y_previsto e y_train
+fig = px.scatter(x= y_previsto_train, y= y_train,
+                 title='Previsão x Real',
+                 labels={'x': 'Preço previsto', 'y':'Preço real'})
+
+fig.show()
