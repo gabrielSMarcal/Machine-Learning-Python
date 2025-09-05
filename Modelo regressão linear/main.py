@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
+import pickle
 
 import pandas as pd
 from statsmodels.formula.api import ols
@@ -137,9 +138,15 @@ predict_3 = modelo_3.predict(x_test[['const', 'area_primeiro_andar', 'existe_seg
 # print(f"Preço do imóvel pelo modelo 3: R$ {preco_3.values[0]:.2f}")
 
 # Adicionando constante
-u.d_novo = sm.add_constant(u.d_novo)
+# u.d_novo = sm.add_constant(u.d_novo)
 
-# Qual o preço dos novos imóveis?
-preco_novo = modelo_3.predict(u.d_novo)
-for i, preco in enumerate(preco_novo):
-    print(f"Preço do imóvel {i+1} pelo modelo 3: R$ {preco:.2f}")
+# # Qual o preço dos novos imóveis?
+# preco_novo = modelo_3.predict(u.d_novo)
+# for i, preco in enumerate(preco_novo):
+#     print(f"Preço do imóvel {i+1} pelo modelo 3: R$ {preco:.2f}")
+
+# Salvando modelo em um arquivo
+nome_arquivo = 'modelo_regressao_linear.pkl'
+
+with open(nome_arquivo, 'wb') as arquivo:
+    pickle.dump(modelo_3, arquivo)
