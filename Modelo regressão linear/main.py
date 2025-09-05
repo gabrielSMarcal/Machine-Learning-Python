@@ -117,4 +117,21 @@ predict_3 = modelo_3.predict(x_test[['const', 'area_primeiro_andar', 'existe_seg
 # print(modelo_3.rsquared)
 
 # Qual o R² do treino?
-print(f"R² do teste: {r2_score(y_test, predict_3) * 100:.2f}%")
+# print(f"R² do teste: {r2_score(y_test, predict_3) * 100:.2f}%")
+
+# Novo imovel para teste
+novo_imovel = pd.DataFrame({
+    'const': [1],
+    'area_primeiro_andar': [120],
+    'existe_segundo_andar': [1],
+    'quantidade_banheiros': [2],
+    'qualidade_da_cozinha_Excelente': [0]
+})
+
+# Qual o preço desse imóvel com o modelo 0?
+preco_0 = modelo_0.predict(novo_imovel[['area_primeiro_andar']])
+print(f"Preço do imóvel pelo modelo 0: R$ {preco_0.values[0]:.2f}")
+
+# Qual o preço desse imóvel com o modelo 3?
+preco_3 = modelo_3.predict(novo_imovel)
+print(f"Preço do imóvel pelo modelo 3: R$ {preco_3.values[0]:.2f}")
