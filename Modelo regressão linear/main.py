@@ -180,9 +180,19 @@ vif_3['vif'] = [variance_inflation_factor(x_train[explicativas_3], i) for i in r
 # Prevendo os valores do treino x_train[explicativas_3]
 y_previsto_train = modelo_3.predict(x_train[explicativas_3])
 
-# Fazendo um scatter plot entre y_previsto e y_train
-fig = px.scatter(x= y_previsto_train, y= y_train,
-                 title='Previsão x Real',
-                 labels={'x': 'Preço previsto', 'y':'Preço real'})
+# # Fazendo um scatter plot entre y_previsto e y_train
+# fig = px.scatter(x= y_previsto_train, y= y_train,
+#                  title='Previsão x Real',
+#                  labels={'x': 'Preço previsto', 'y':'Preço real'})
 
-fig.show()
+# fig.show()
+
+# Residuos
+residuos = modelo_3.resid
+
+ax = sns.scatterplot(x= y_previsto_train, y=residuos, s=150)
+ax.figure.set_size_inches(20, 8)
+ax.set_title('Resíduos x Previsão', fontsize=18)
+ax.set_xlabel('Preços da Casa - Previsão', fontsize=14)
+ax.set_ylabel('Resíduos', fontsize=14)
+plt.show()
