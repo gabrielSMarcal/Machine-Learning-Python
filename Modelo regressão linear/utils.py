@@ -3,12 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+d_novo = pd.read_csv('Novas_casas.csv', sep=';')
 dados = pd.read_csv('Preços_de_casas.csv')
 
 dados = dados.drop(columns='Id')
+d_novo = d_novo.drop(columns='Casa')
 
 # Correlação
 corr = dados.corr()
+corr_2 = d_novo.corr()
 
 # # Quais fatores estão mais correlacionados?
 
