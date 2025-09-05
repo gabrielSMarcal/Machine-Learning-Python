@@ -106,4 +106,15 @@ modelo_3 = sm.OLS(y_train, x_train[['const', 'area_primeiro_andar', 'existe_segu
 # print("modelo 2:", len(modelo_2.params))
 # print("modelo 3:", len(modelo_3.params))
 
-print(modelo_3.params)
+# Constante em x_test
+x_test = sm.add_constant(x_test)
+
+# Prevendo com o modelo 3
+predict_3 = modelo_3.predict(x_test[['const', 'area_primeiro_andar', 'existe_segundo_andar',
+                         'quantidade_banheiros','qualidade_da_cozinha_Excelente']])
+
+# Qual o R² da previsão?
+# print(modelo_3.rsquared)
+
+# Qual o R² do treino?
+print(f"R² do teste: {r2_score(y_test, predict_3) * 100:.2f}%")
