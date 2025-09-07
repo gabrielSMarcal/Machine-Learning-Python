@@ -5,7 +5,6 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 import pandas as pd
 
-
 dados = u.dados
 
 # Aplicando K-Means
@@ -17,5 +16,7 @@ modelo = mod_kmeans.fit(dados)
 
 # print(silhouette_score(dados, mod_kmeans.predict(dados)))
 
-silhueta, inercia = u.avaliacao(dados)
-print(silhueta)
+# silhueta, inercia = u.avaliacao(dados)
+# print(silhueta)
+
+u.graf_silhueta(2, dados)
