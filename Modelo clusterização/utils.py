@@ -26,4 +26,4 @@ dados = pd.concat([df, encoded_df], axis=1).drop('sexo', axis=1)
 # print(dados.info())
 
 # Criando arquivo para uso posterior
-joblib.dump(encoder, 'encoder.pkl')
+# joblib.dump(encoder, 'encoder.pkl')

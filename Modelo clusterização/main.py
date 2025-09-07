@@ -1,8 +1,18 @@
+import joblib
 import utils as u
+
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import pandas as pd
+
 
 dados = u.dados
 
 # Aplicando K-Means
 mod_kmeans = KMeans(n_clusters=2, random_state=45)
 modelo = mod_kmeans.fit(dados)
+
+# Avaliando o K-Means
+# print(mod_kmeans.inertia_)
+
+# print(silhouette_score(dados, mod_kmeans.predict(dados)))
