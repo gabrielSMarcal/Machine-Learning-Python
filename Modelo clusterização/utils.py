@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import joblib
+from sklearn.cluster import KMeans
 
+from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import OneHotEncoder
 
 # Carregando dados não rotulados
@@ -27,3 +28,16 @@ dados = pd.concat([df, encoded_df], axis=1).drop('sexo', axis=1)
 
 # Criando arquivo para uso posterior
 # joblib.dump(encoder, 'encoder.pkl')
+
+def avaliacao(dados):
+    """Função para avaliar os dados"""
+    inercia = []
+    silhueta = []
+    
+    for k in range(2, 21):
+        kmeans = KMeans(n_clusters=k, random_state=45, n_init='auto')
+        kmeans.fit(dados)
+        inercia.append(kmeans.inertia_)
+        silhueta.append(f'k={k}: - ' + str(silhouette_score(dados, kmeans.predict(dados))))
+    return silhueta, inercia
+        

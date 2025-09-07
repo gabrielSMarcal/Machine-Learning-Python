@@ -16,3 +16,6 @@ modelo = mod_kmeans.fit(dados)
 # print(mod_kmeans.inertia_)
 
 # print(silhouette_score(dados, mod_kmeans.predict(dados)))
+
+silhueta, inercia = u.avaliacao(dados)
+print(silhueta)
