@@ -16,7 +16,11 @@ modelo = mod_kmeans.fit(dados)
 
 # print(silhouette_score(dados, mod_kmeans.predict(dados)))
 
-# silhueta, inercia = u.avaliacao(dados)
+silhueta, inercia = u.avaliacao(dados)
 # print(silhueta)
 
-u.graf_silhueta(2, dados)
+# Aplicação da avaliação de silhueta
+# u.graf_silhueta(2, dados)
+
+# Aplicação do gráfico em cotovelo
+u.plot_cotovelo(inercia) # Teste indica valores altos de inércia, também, cotovelo não é claro

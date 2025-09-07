@@ -90,3 +90,14 @@ def graf_silhueta (n_clusters, dados):
     ax1.set_xticks([i / 10.0 for i in range (-1, 11)])
     
     plt.show()
+    
+# Outras avaliações
+def plot_cotovelo(inercia):
+    plt.figure(figsize=(8, 4))
+    plt.plot(range(2, 21), inercia, 'bo-')
+    
+    plt.xlabel('Número de clusters (k)')
+    plt.ylabel('Inércia')
+    plt.title('Método do Cotovelo para Determinação de k')
+    
+    plt.show()
