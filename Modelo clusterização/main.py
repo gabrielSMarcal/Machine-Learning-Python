@@ -1,4 +1,5 @@
 import joblib
+from sklearn.preprocessing import MinMaxScaler
 import utils as u
 
 from sklearn.cluster import KMeans
@@ -16,11 +17,20 @@ modelo = mod_kmeans.fit(dados)
 
 # print(silhouette_score(dados, mod_kmeans.predict(dados)))
 
-silhueta, inercia = u.avaliacao(dados)
+# silhueta, inercia = u.avaliacao(dados)
 # print(silhueta)
 
 # Aplicação da avaliação de silhueta
 # u.graf_silhueta(2, dados)
 
 # Aplicação do gráfico em cotovelo
-u.plot_cotovelo(inercia) # Teste indica valores altos de inércia, também, cotovelo não é claro
+# u.plot_cotovelo(inercia) # Teste indica valores altos de inércia, também, cotovelo não é claro
+
+# Aplicando normalização
+scaler = MinMaxScaler()
+dados_escalados = scaler.fit_transform(dados)
+
+dados_escalados = pd.DataFrame(dados_escalados, columns=dados.columns)
+# print(dados_escalados.describe()) # Todos dados tem valores entre 0 e 1
+
+# joblib.dump(scaler, 'scaler.pkl')
