@@ -34,3 +34,8 @@ dados_escalados = pd.DataFrame(dados_escalados, columns=dados.columns)
 # print(dados_escalados.describe()) # Todos dados tem valores entre 0 e 1
 
 # joblib.dump(scaler, 'scaler.pkl')
+
+# Verificando as métricas para os novos dados
+# silhueta, inercia = u.avaliacao(dados_escalados)
+
+u.graf_silhueta(3, dados_escalados) # Melhor valor de silhueta média
