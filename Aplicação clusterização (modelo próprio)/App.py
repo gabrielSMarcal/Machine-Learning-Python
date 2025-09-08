@@ -4,7 +4,7 @@ import joblib
 
 encoder = joblib.load('encoder.pkl')
 scaler = joblib.load('scaler.pkl')
-kmeans = joblib.load('kmeans.pkl')
+kmeans = joblib.load('modelo_kmeans.pkl')
 
 st.title('Grupos de interesse para marketing')
 st.write("""
