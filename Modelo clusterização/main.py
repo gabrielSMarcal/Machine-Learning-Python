@@ -9,8 +9,8 @@ import pandas as pd
 dados = u.dados
 
 # Aplicando K-Means
-mod_kmeans = KMeans(n_clusters=2, random_state=45)
-modelo = mod_kmeans.fit(dados)
+# mod_kmeans = KMeans(n_clusters=2, random_state=45)
+# modelo = mod_kmeans.fit(dados)
 
 # Avaliando o K-Means
 # print(mod_kmeans.inertia_)
@@ -38,4 +38,12 @@ dados_escalados = pd.DataFrame(dados_escalados, columns=dados.columns)
 # Verificando as métricas para os novos dados
 # silhueta, inercia = u.avaliacao(dados_escalados)
 
-u.graf_silhueta(3, dados_escalados) # Melhor valor de silhueta média
+# u.graf_silhueta(3, dados_escalados) # Melhor valor de silhueta média
+
+# u.plot_cotovelo(inercia) # Cotovelo mais claro, com valor de cluster melhor em 3
+
+# Criando melhor modelo
+modelo_kmeans = KMeans(n_clusters=3, random_state=45, n_init='auto')
+modelo_kmeans = modelo_kmeans.fit(dados_escalados)
+
+joblib.dump(modelo_kmeans, 'modelo_kmeans.pkl')
