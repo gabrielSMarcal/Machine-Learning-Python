@@ -46,4 +46,18 @@ dados_escalados = pd.DataFrame(dados_escalados, columns=dados.columns)
 modelo_kmeans = KMeans(n_clusters=3, random_state=45, n_init='auto')
 modelo_kmeans = modelo_kmeans.fit(dados_escalados)
 
-joblib.dump(modelo_kmeans, 'modelo_kmeans.pkl')
+# joblib.dump(modelo_kmeans, 'modelo_kmeans.pkl')
+
+# Revertendo escala
+dados_analise = pd.DataFrame()
+dados_analise[dados_escalados.columns] = scaler.inverse_transform(dados_escalados)
+
+dados_analise['cluster'] = modelo_kmeans.labels_
+
+# Agrupando por tipo de cluster
+cluster_media = dados_analise.groupby('cluster').mean()
+
+cluster_media = cluster_media.transpose()
+
+cluster_media.columns = ['Cluster 0', 'Cluster 1', 'Cluster 2']
+print(cluster_media)
