@@ -14,6 +14,9 @@ from sklearn.preprocessing import OneHotEncoder
 csv = 'dados_mkt.csv'
 df = pd.read_csv(csv)
 
+csv1 = 'novas_entradas.csv'
+df_novas_entradas = pd.read_csv(csv1)
+
 # Sexo possui Dtype object, precisando converter
 # print(df.info())
 
@@ -41,6 +44,7 @@ def avaliacao(dados):
         kmeans.fit(dados)
         inercia.append(kmeans.inertia_)
         silhueta.append(f'k={k}: - ' + str(silhouette_score(dados, kmeans.predict(dados))))
+        print()
     return silhueta, inercia
 
 def graf_silhueta (n_clusters, dados):
