@@ -59,5 +59,10 @@ cluster_media = dados_analise.groupby('cluster').mean()
 
 cluster_media = cluster_media.transpose()
 
-cluster_media.columns = ['Cluster 0', 'Cluster 1', 'Cluster 2']
-print(cluster_media)
+cluster_media.columns = [0, 1, 2]
+
+# Categorizando relevância
+for col in cluster_media.columns:
+    print(f'Cluster {col}')
+    print(cluster_media[col].sort_values(ascending=False))
+    print()
