@@ -1,10 +1,22 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import os
 
-encoder = joblib.load('encoder.pkl')
-scaler = joblib.load('scaler.pkl')
-kmeans = joblib.load('modelo_kmeans.pkl')
+
+# Obtém o caminho absoluto do diretório onde o script está localizado
+caminho_script = os.path.dirname(os.path.abspath(__file__))
+
+# Constrói o caminho completo para cada arquivo
+caminho_encoder = os.path.join(caminho_script, 'encoder.pkl')
+caminho_scaler = os.path.join(caminho_script, 'scaler.pkl')
+caminho_kmeans = os.path.join(caminho_script, 'modelo_kmeans.pkl')
+
+# Carrega os arquivos usando os caminhos completos
+encoder = joblib.load(caminho_encoder)
+scaler = joblib.load(caminho_scaler)
+kmeans = joblib.load(caminho_kmeans)
+
 
 st.title('Grupos de interesse para marketing')
 st.write("""
