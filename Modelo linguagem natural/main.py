@@ -82,3 +82,5 @@ for opiniao in df.avaliacao:
 df['tratamento_1'] = frase_processada
 
 # print(df.head())
+
+u.classificar_texto(df, 'tratamento_1', 'sentimento')

@@ -49,3 +49,11 @@ def nuvem_palavras(texto, coluna_texto, sentimento):
     plt.axis('off')
     plt.show()
     
+def classificar_texto(texto, coluna_texto, coluna_classificacao):
+    vetorizar = CountVectorizer(lowercase=False, max_features=50)
+    bag_of_words = vetorizar.fit_transform(texto[coluna_texto])
+    X_treino, X_teste, y_treino, y_teste = train_test_split(bag_of_words, texto[coluna_classificacao], random_state=4978)
+    regressao_logistica = LogisticRegression()
+    regressao_logistica.fit(X_treino, y_treino)
+    acuracia = regressao_logistica.score(X_teste, y_teste)
+    return print(f"Acurácia do modelo com '{coluna_texto}': {acuracia * 100:.2f}%")
