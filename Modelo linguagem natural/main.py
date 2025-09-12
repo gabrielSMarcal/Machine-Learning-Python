@@ -33,5 +33,5 @@ todas_palavras = ' '.join([texto for texto in df.avaliacao])
 # plt.show()
 
 # Aplicando função
-
 u.nuvem_palavras(df, 'avaliacao', 'negativo')
+u.nuvem_palavras(df, 'avaliacao', 'positivo')
