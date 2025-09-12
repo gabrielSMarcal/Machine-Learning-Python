@@ -129,4 +129,23 @@ df['tratamento_3'] = frase_processada
 # print(df['tratamento_2'][70])
 # print(df['tratamento_3'][70])
 
-u.grafico_frequencia(df, 'tratamento_3', 20)
+# u.grafico_frequencia(df, 'tratamento_3', 20)
+
+# Tratamento de case sensitive
+# frase = 'Bom produto otimo custo-beneficio Recomendo Confortavel bem acabado'
+# print(frase.lower())
+
+frase_processada = []
+for opiniao in df['tratamento_3']:
+    opiniao = opiniao.lower()
+    palavras_texto = token_pontuacao.tokenize(opiniao)
+    nova_frase = [palavra for palavra in palavras_texto if palavra not in stopwords_sem_acento]
+    frase_processada.append(' '.join(nova_frase))
+    
+df['tratamento_4'] = frase_processada
+
+# print(df['tratamento_3'][3])
+# print(df['tratamento_4'][3])
+
+# u.classificar_texto(df, 'tratamento_4', 'sentimento') # Acuracia do tratamento 4 é 83, 75%
+
