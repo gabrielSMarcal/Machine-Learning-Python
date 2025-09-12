@@ -3,6 +3,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
 
 df = pd.read_csv('dataset_avaliacoes.csv')
 
@@ -37,3 +39,12 @@ regrassao_logistica = LogisticRegression()
 regrassao_logistica.fit(X_treino, y_treino)
 # acuracia = regrassao_logistica.score(X_teste, y_teste)
 # print(f'A acurácia do modelo foi de {acuracia * 100:.2f}%')
+
+def nuvem_palavras(texto, coluna_texto, sentimento):
+    texto_sentimento = texto.query(f"sentimento == '{sentimento}'")[coluna_texto]
+    text_unido = ' '.join(texto_sentimento)
+    nuvem_palavras = WordCloud(width=800, height=500, max_font_size=110, collocations=False).generate(text_unido)
+    plt.figure(figsize=(10, 7))
+    plt.imshow(nuvem_palavras, interpolation='bilinear')
+    plt.axis('off')
+    plt.show()

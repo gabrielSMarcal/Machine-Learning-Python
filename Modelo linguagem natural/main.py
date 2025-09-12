@@ -26,8 +26,12 @@ todas_palavras = ' '.join([texto for texto in df.avaliacao])
 # plt.show()
 
 # Removendo palavras repetidas
-nuvem_palavras = WordCloud(width=800, height=500, max_font_size=110, collocations=False).generate(todas_palavras)
-plt.figure(figsize=(10, 7))
-plt.imshow(nuvem_palavras, interpolation='bilinear')
-plt.axis('off')
-plt.show()
+# nuvem_palavras = WordCloud(width=800, height=500, max_font_size=110, collocations=False).generate(todas_palavras)
+# plt.figure(figsize=(10, 7))
+# plt.imshow(nuvem_palavras, interpolation='bilinear')
+# plt.axis('off')
+# plt.show()
+
+# Aplicando função
+
+u.nuvem_palavras(df, 'avaliacao', 'negativo')
