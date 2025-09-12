@@ -83,4 +83,6 @@ df['tratamento_1'] = frase_processada
 
 # print(df.head())
 
-u.classificar_texto(df, 'tratamento_1', 'sentimento')
+# u.classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado de 81,09%
+
+u.grafico_frequencia(df, 'tratamento_1', 20)
