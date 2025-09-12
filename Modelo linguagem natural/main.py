@@ -1,7 +1,9 @@
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from nltk import tokenize
+import pandas as pd
 import nltk
+import seaborn as sns
 
 import utils as u
 
@@ -44,7 +46,26 @@ todas_palavras = ' '.join([texto for texto in df.avaliacao])
 # frequencia = nltk.FreqDist(frases)
 # print(frequencia.most_common())
 
-frase = 'O produto é excelente e a entrega foi muito rápida!'
+# Tokenização
+# frase = 'O produto é excelente e a entrega foi muito rápida!'
 token_espaco = tokenize.WhitespaceTokenizer()
-token_frase = token_espaco.tokenize(frase)
-print(token_frase)
+# token_frase = token_espaco.tokenize(frase)
+# print(token_frase)
+
+token_frase = token_espaco.tokenize(todas_palavras)
+frequencia = nltk.FreqDist(token_frase)
+df_frequencia = pd.DataFrame({
+    'Palavra': list(frequencia.keys()),
+    'Frequência': list(frequencia.values())
+})
+
+# print(df_frequencia.head())
+
+exemplo = df_frequencia.nlargest(columns='Frequência', n=20)
+
+# print(exemplo)
+
+plt.figure(figsize=(20, 6))
+ax = sns.barplot(data=exemplo, x='Palavra', y='Frequência', color='gray')
+ax.set(ylabel='Contagem')
+plt.show()
