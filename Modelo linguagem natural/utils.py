@@ -48,3 +48,4 @@ def nuvem_palavras(texto, coluna_texto, sentimento):
     plt.imshow(nuvem_palavras, interpolation='bilinear')
     plt.axis('off')
     plt.show()
+    

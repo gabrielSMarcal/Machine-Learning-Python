@@ -65,7 +65,20 @@ exemplo = df_frequencia.nlargest(columns='Frequência', n=20)
 
 # print(exemplo)
 
-plt.figure(figsize=(20, 6))
-ax = sns.barplot(data=exemplo, x='Palavra', y='Frequência', color='gray')
-ax.set(ylabel='Contagem')
-plt.show()
+# plt.figure(figsize=(20, 6))
+# ax = sns.barplot(data=exemplo, x='Palavra', y='Frequência', color='gray')
+# ax.set(ylabel='Contagem')
+# plt.show()
+
+# Removendo palavras irrelevantes
+palavras_irrelevantes = nltk.corpus.stopwords.words('portuguese')
+
+frase_processada = []
+for opiniao in df.avaliacao:
+    palavras_textos = token_espaco.tokenize(opiniao)
+    nova_frase = [palavra for palavra in palavras_textos if palavra not in palavras_irrelevantes]
+    frase_processada.append(' '.join(nova_frase))
+    
+df['tratamento_1'] = frase_processada
+
+# print(df.head())
