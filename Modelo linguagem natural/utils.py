@@ -35,5 +35,5 @@ X_treino, X_teste, y_treino, y_teste = train_test_split(bag_of_words, df.sentime
 
 regrassao_logistica = LogisticRegression()
 regrassao_logistica.fit(X_treino, y_treino)
-acuracia = regrassao_logistica.score(X_teste, y_teste)
-print(f'A acurácia do modelo foi de {acuracia * 100:.2f}%')
+# acuracia = regrassao_logistica.score(X_teste, y_teste)
+# print(f'A acurácia do modelo foi de {acuracia * 100:.2f}%')
