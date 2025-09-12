@@ -85,4 +85,25 @@ df['tratamento_1'] = frase_processada
 
 # u.classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado de 81,09%
 
-u.grafico_frequencia(df, 'tratamento_1', 20)
+# u.grafico_frequencia(df, 'tratamento_1', 20) # Ainda traz pontuação
+
+# Exemplo
+# frase = 'Esse smartphone superou expectativas, recomendo'
+token_pontuacao = tokenize.WordPunctTokenizer()
+# token_frase = token_pontuacao.tokenize(frase)
+# print(token_frase)
+
+frase_processada = []
+
+for opiniao in df['tratamento_1']:
+    palavras_texto = token_pontuacao.tokenize(opiniao)
+    nova_frase = [palavra for palavra in palavras_texto if palavra.isalpha() and palavra not in palavras_irrelevantes]
+    frase_processada.append(' '.join(nova_frase))
+    
+df['tratamento_2'] = frase_processada
+# print(df.head())
+
+# print(df['tratamento_1'][10]) # Antes do tratamento de pontuação
+# print(df['tratamento_2'][10]) # Depois do tratamento
+
+u.grafico_frequencia(df, 'tratamento_2', 20)
