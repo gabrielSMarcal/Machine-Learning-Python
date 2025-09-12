@@ -1,5 +1,7 @@
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+from nltk import tokenize
+import nltk
 
 import utils as u
 
@@ -33,5 +35,16 @@ todas_palavras = ' '.join([texto for texto in df.avaliacao])
 # plt.show()
 
 # Aplicando função
-u.nuvem_palavras(df, 'avaliacao', 'negativo')
-u.nuvem_palavras(df, 'avaliacao', 'positivo')
+# u.nuvem_palavras(df, 'avaliacao', 'negativo')
+# u.nuvem_palavras(df, 'avaliacao', 'positivo')
+
+# nltk.download('all')
+
+# frases = ['um produto bom', 'um produto ruim']
+# frequencia = nltk.FreqDist(frases)
+# print(frequencia.most_common())
+
+frase = 'O produto é excelente e a entrega foi muito rápida!'
+token_espaco = tokenize.WhitespaceTokenizer()
+token_frase = token_espaco.tokenize(frase)
+print(token_frase)
