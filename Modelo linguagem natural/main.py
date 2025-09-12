@@ -4,6 +4,7 @@ from nltk import tokenize
 import pandas as pd
 import nltk
 import seaborn as sns
+import unidecode
 
 import utils as u
 
@@ -106,4 +107,26 @@ df['tratamento_2'] = frase_processada
 # print(df['tratamento_1'][10]) # Antes do tratamento de pontuação
 # print(df['tratamento_2'][10]) # Depois do tratamento
 
-u.grafico_frequencia(df, 'tratamento_2', 20)
+# u.grafico_frequencia(df, 'tratamento_2', 20)
+
+# Teste unidecode
+# frase = 'Um aparelho ótima performance preço bem menor outros aparelhos marcas conhecidas performance semelhante'
+# teste = unidecode.unidecode(frase)
+# print(teste)
+
+sem_acentos = [unidecode.unidecode(texto) for texto in df['tratamento_2']]
+stopwords_sem_acento = [unidecode.unidecode(texto) for texto in palavras_irrelevantes]
+df['tratamento_3'] = sem_acentos
+
+frase_processada = []
+for opiniao in df['tratamento_3']:
+    palavras_texto = token_pontuacao.tokenize(opiniao)
+    nova_frase = [palavra for palavra in palavras_texto if palavra not in stopwords_sem_acento]
+    frase_processada.append(' '.join(nova_frase))
+    
+df['tratamento_3'] = frase_processada
+
+# print(df['tratamento_2'][70])
+# print(df['tratamento_3'][70])
+
+u.grafico_frequencia(df, 'tratamento_3', 20)
