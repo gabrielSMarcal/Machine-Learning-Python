@@ -78,7 +78,8 @@ df['tratamento_1'] = frase_processada
 
 # print(df.head())
 
-# classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado: 81,09%
+# classificar_texto(df, 'tratamento_1', 'sentimento')
+# Resultado: 81,09%
 
 # grafico_frequencia(df, 'tratamento_1', 20) # Ainda traz pontuação
 
@@ -141,7 +142,8 @@ df['tratamento_4'] = frase_processada
 # print(df['tratamento_3'][3])
 # print(df['tratamento_4'][3])
 
-# classificar_texto(df, 'tratamento_4', 'sentimento') # Acuracia do tratamento 4: 83,75%
+# classificar_texto(df, 'tratamento_4', 'sentimento')
+# # Acuracia do tratamento 4: 83,75%
 
 stemmer = nltk.RSLPStemmer()
 # print(stemmer.stem('gostei')) # Exemplo
@@ -157,7 +159,8 @@ df['tratamento_5'] = frase_processada
 # print(df['tratamento_4'][3])
 # print(df['tratamento_5'][3])
 
-# classificar_texto(df, 'tratamento_5', 'sentimento') # Acuracia do tratamento 5: 85,11%
+# classificar_texto(df, 'tratamento_5', 'sentimento')
+# Acuracia do tratamento 5: 85,11%
 
 '''TF-IDF EXEMPLO'''
 # frases = ['Comprei um ótimo produto', 'Comprei um produto péssimo']
@@ -173,7 +176,8 @@ tfidf = TfidfVectorizer(lowercase=False, max_features=50)
 # X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_bruto, df['sentimento'], random_state=SEED)
 # regrassao_logistica.fit(X_treino, y_treino)
 # acuracia_tfidf_bruto = regrassao_logistica.score(X_teste, y_teste)
-# print(f'Acurácia do modelo com TF-IDF bruto: {acuracia_tfidf_bruto * 100:.2f}%') # Acurácia do modelo com TF-IDF bruto: 79,54%
+# print(f'Acurácia do modelo com TF-IDF bruto: {acuracia_tfidf_bruto * 100:.2f}%')
+# Acurácia do modelo com TF-IDF bruto: 79,54%
 
 '''TESTANDO COM TF-IDF TRATADO'''
 tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
@@ -181,7 +185,8 @@ tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
 # X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_tratado, df['sentimento'], random_state=SEED)
 # regrassao_logistica.fit(X_treino, y_treino)
 # acuracia_tfidf_tratado = regrassao_logistica.score(X_teste, y_teste)
-# print(f'Acurácia do modelo com TF-IDF tratado: {acuracia_tfidf_tratado * 100:.2f}%') # Acurácia do modelo com TF-IDF tratado: 85,14%
+# print(f'Acurácia do modelo com TF-IDF tratado: {acuracia_tfidf_tratado * 100:.2f}%')
+# Acurácia do modelo com TF-IDF tratado: 85,14%
 
 '''CAPTURAR CONTEXTO'''
 # frase = 'Comprei um produto ótimo'
@@ -190,9 +195,24 @@ tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
 # print(list(pares))
 
 '''TESTANDO COM N-GRAMS'''
-tfidf_50 = TfidfVectorizer(lowercase=False, max_features=50, ngram_range=(1, 2))
-vetor_tfidf = tfidf_50.fit_transform(df['tratamento_5'])
-X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf, df['sentimento'], random_state=SEED)
-regrassao_logistica.fit(X_treino, y_treino)
-acuracia_tfidf_50 = regrassao_logistica.score(X_teste, y_teste)
-print(f'Acurácia do modelo com TF-IDF 50 e n-grams: {acuracia_tfidf_50 * 100:.2f}%') # Acurácia do modelo com TF-IDF e n-grams: 85,22%
+# tfidf_50 = TfidfVectorizer(lowercase=False, max_features=50, ngram_range=(1, 2))
+# vetor_tfidf = tfidf_50.fit_transform(df['tratamento_5'])
+# X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf, df['sentimento'], random_state=SEED)
+# regrassao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_50 = regrassao_logistica.score(X_teste, y_teste)
+# print(f'Acurácia do modelo com TF-IDF 50 e n-grams: {acuracia_tfidf_50 * 100:.2f}%')
+# Acurácia do modelo com TF-IDF e n-grams: 85,22%
+
+'''TF-IDF COM N-GRAMS E 100 FEATURES'''
+# tfidf_100 = TfidfVectorizer(lowercase=False, max_features=100, ngram_range=(1, 2))
+# vetor_tfidf_100 = tfidf_100.fit_transform(df['tratamento_5'])
+# X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf_100, df['sentimento'], random_state=SEED)
+# regrassao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_100 = regrassao_logistica.score(X_teste, y_teste)
+# print(f'Acurácia do modelo com TF-IDF 100 e n-grams: {acuracia_tfidf_100 * 100:.2f}%')
+# Acurácia do modelo com TF-IDF e n-grams: 88,26%
+
+'''TESTANDO COM N-GRAMS E 1000 FEATURES'''
+
+
+# Acurácia do modelo com TF-IDF e n-grams: 91,85%
