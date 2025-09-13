@@ -1,3 +1,4 @@
+import joblib
 import matplotlib.pyplot as plt
 import nltk
 import pandas as pd
@@ -237,3 +238,6 @@ pesos = pd.DataFrame(
 # print(pesos.nlargest(50, 0)) # Palavras que mais indicam sentimento positivo
 # print(pesos.nsmallest(50, 0)) # Palavras que mais indicam sentimento negativo
 
+'''SALVANDO O MODELO'''
+joblib.dump(tfidf_1000, 'tfidf_vectorizer.pkl')
+joblib.dump(regressao_logistica, 'modelo_regressao_logistica.pkl')
