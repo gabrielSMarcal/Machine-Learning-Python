@@ -3,7 +3,7 @@ import nltk
 import pandas as pd
 import seaborn as sns
 import unidecode
-from nltk import tokenize
+from nltk import tokenize, ngrams
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from wordcloud import WordCloud
@@ -167,7 +167,7 @@ tfidf = TfidfVectorizer(lowercase=False, max_features=50)
 #     matriz.todense(),
 #     columns=tfidf.get_feature_names_out())
 
-tfidf_bruto = tfidf.fit_transform(df['avaliacao'])
+# tfidf_bruto = tfidf.fit_transform(df['avaliacao'])
 
 '''TESTANDO COM TF-IDF BRUTO'''
 # X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_bruto, df['sentimento'], random_state=SEED)
@@ -178,7 +178,21 @@ tfidf_bruto = tfidf.fit_transform(df['avaliacao'])
 '''TESTANDO COM TF-IDF TRATADO'''
 tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
 
-X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_tratado, df['sentimento'], random_state=SEED)
+# X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_tratado, df['sentimento'], random_state=SEED)
+# regrassao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_tratado = regrassao_logistica.score(X_teste, y_teste)
+# print(f'Acurácia do modelo com TF-IDF tratado: {acuracia_tfidf_tratado * 100:.2f}%') # Acurácia do modelo com TF-IDF tratado: 85,14%
+
+'''CAPTURAR CONTEXTO'''
+# frase = 'Comprei um produto ótimo'
+# frase_separada = token_espaco.tokenize(frase)
+# pares = ngrams(frase_separada, 2)
+# print(list(pares))
+
+'''TESTANDO COM N-GRAMS'''
+tfidf_50 = TfidfVectorizer(lowercase=False, max_features=50, ngram_range=(1, 2))
+vetor_tfidf = tfidf_50.fit_transform(df['tratamento_5'])
+X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf, df['sentimento'], random_state=SEED)
 regrassao_logistica.fit(X_treino, y_treino)
-acuracia_tfidf_tratado = regrassao_logistica.score(X_teste, y_teste)
-print(f'Acurácia do modelo com TF-IDF tratado: {acuracia_tfidf_tratado * 100:.2f}%') # Acurácia do modelo com TF-IDF tratado: 85,14%
+acuracia_tfidf_50 = regrassao_logistica.score(X_teste, y_teste)
+print(f'Acurácia do modelo com TF-IDF 50 e n-grams: {acuracia_tfidf_50 * 100:.2f}%') # Acurácia do modelo com TF-IDF e n-grams: 85,22%
