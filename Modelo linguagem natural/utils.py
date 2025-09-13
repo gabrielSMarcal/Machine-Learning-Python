@@ -9,6 +9,8 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
+SEED = 4978
+
 df = pd.read_csv('dataset_avaliacoes.csv')
 
 # print(df.value_counts('sentimento'))
@@ -36,7 +38,7 @@ matriz_esparsa_avaliacoes = pd.DataFrame.sparse.from_spmatrix(bag_of_words, colu
 # print(matriz_esparsa_avaliacoes)
 
 X_treino, X_teste, y_treino, y_teste = train_test_split(bag_of_words, df.sentimento, test_size=0.2,
-                                                        random_state=4978)
+                                                        random_state=SEED)
 
 regrassao_logistica = LogisticRegression()
 regrassao_logistica.fit(X_treino, y_treino)

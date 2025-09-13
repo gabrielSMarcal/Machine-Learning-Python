@@ -1,37 +1,39 @@
-from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-from nltk import tokenize
-import pandas as pd
 import nltk
+import pandas as pd
 import seaborn as sns
 import unidecode
+from nltk import tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from wordcloud import WordCloud
 
-from utils import df, classificar_texto, grafico_frequencia
+from utils import df, regrassao_logistica, SEED, classificar_texto, grafico_frequencia
 
 todas_palavras = [texto for texto in df.avaliacao]
 todas_palavras = ' '.join([texto for texto in df.avaliacao])
 
-# Primeira amostra
+'''PRIMEIRA AMOSTRA'''
 # nuvem_palavras = WordCloud().generate(todas_palavras)
 # plt.figure()
 # plt.imshow(nuvem_palavras)
 # plt.show()
 
-# Definindo o tamanho da imagem
+'''DEFININDO O TAMANHO DA IMAGEM'''
 # nuvem_palavras = WordCloud(width=800, height=500, max_font_size=110).generate(todas_palavras)
 # plt.figure(figsize=(10, 7))
 # plt.imshow(nuvem_palavras, interpolation='bilinear')
 # plt.axis('off')
 # plt.show()
 
-# Removendo palavras repetidas
+'''REMOVENDO PALAVRAS REPETIDAS'''
 # nuvem_palavras = WordCloud(width=800, height=500, max_font_size=110, collocations=False).generate(todas_palavras)
 # plt.figure(figsize=(10, 7))
 # plt.imshow(nuvem_palavras, interpolation='bilinear')
 # plt.axis('off')
 # plt.show()
 
-# Aplicando função
+'''APLICANDO FUNÇÕES'''
 # nuvem_palavras(df, 'avaliacao', 'negativo')
 # nuvem_palavras(df, 'avaliacao', 'positivo')
 
@@ -41,7 +43,7 @@ todas_palavras = ' '.join([texto for texto in df.avaliacao])
 # frequencia = nltk.FreqDist(frases)
 # print(frequencia.most_common())
 
-# Tokenização
+'''TOKENIZAÇÃO'''
 # frase = 'O produto é excelente e a entrega foi muito rápida!'
 token_espaco = tokenize.WhitespaceTokenizer()
 # token_frase = token_espaco.tokenize(frase)
@@ -53,11 +55,9 @@ df_frequencia = pd.DataFrame({
     'Palavra': list(frequencia.keys()),
     'Frequência': list(frequencia.values())
 })
-
 # print(df_frequencia.head())
 
 exemplo = df_frequencia.nlargest(columns='Frequência', n=20)
-
 # print(exemplo)
 
 # plt.figure(figsize=(20, 6))
@@ -65,7 +65,7 @@ exemplo = df_frequencia.nlargest(columns='Frequência', n=20)
 # ax.set(ylabel='Contagem')
 # plt.show()
 
-# Removendo palavras irrelevantes
+'''REMOVENDO PALAVRAS IRRELEVANTES'''
 palavras_irrelevantes = nltk.corpus.stopwords.words('portuguese')
 
 frase_processada = []
@@ -78,11 +78,11 @@ df['tratamento_1'] = frase_processada
 
 # print(df.head())
 
-# classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado de 81,09%
+# classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado: 81,09%
 
 # grafico_frequencia(df, 'tratamento_1', 20) # Ainda traz pontuação
 
-# Exemplo
+'''EXEMPLO DE PONTUAÇÃO'''
 # frase = 'Esse smartphone superou expectativas, recomendo'
 token_pontuacao = tokenize.WordPunctTokenizer()
 # token_frase = token_pontuacao.tokenize(frase)
@@ -141,7 +141,7 @@ df['tratamento_4'] = frase_processada
 # print(df['tratamento_3'][3])
 # print(df['tratamento_4'][3])
 
-# classificar_texto(df, 'tratamento_4', 'sentimento') # Acuracia do tratamento 4 é 83, 75%
+# classificar_texto(df, 'tratamento_4', 'sentimento') # Acuracia do tratamento 4: 83,75%
 
 stemmer = nltk.RSLPStemmer()
 # print(stemmer.stem('gostei')) # Exemplo
@@ -157,4 +157,28 @@ df['tratamento_5'] = frase_processada
 # print(df['tratamento_4'][3])
 # print(df['tratamento_5'][3])
 
-classificar_texto(df, 'tratamento_5', 'sentimento') # Acuracia do tratamento 5 é 85, 11%
+# classificar_texto(df, 'tratamento_5', 'sentimento') # Acuracia do tratamento 5: 85,11%
+
+'''TF-IDF EXEMPLO'''
+# frases = ['Comprei um ótimo produto', 'Comprei um produto péssimo']
+tfidf = TfidfVectorizer(lowercase=False, max_features=50)
+# matriz = tfidf.fit_transform(frases)
+# data = pd.DataFrame(
+#     matriz.todense(),
+#     columns=tfidf.get_feature_names_out())
+
+tfidf_bruto = tfidf.fit_transform(df['avaliacao'])
+
+'''TESTANDO COM TF-IDF BRUTO'''
+# X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_bruto, df['sentimento'], random_state=SEED)
+# regrassao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_bruto = regrassao_logistica.score(X_teste, y_teste)
+# print(f'Acurácia do modelo com TF-IDF bruto: {acuracia_tfidf_bruto * 100:.2f}%') # Acurácia do modelo com TF-IDF bruto: 79,54%
+
+'''TESTANDO COM TF-IDF TRATADO'''
+tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
+
+X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_tratado, df['sentimento'], random_state=SEED)
+regrassao_logistica.fit(X_treino, y_treino)
+acuracia_tfidf_tratado = regrassao_logistica.score(X_teste, y_teste)
+print(f'Acurácia do modelo com TF-IDF tratado: {acuracia_tfidf_tratado * 100:.2f}%') # Acurácia do modelo com TF-IDF tratado: 85,14%
