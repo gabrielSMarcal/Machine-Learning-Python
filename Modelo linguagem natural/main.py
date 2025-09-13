@@ -6,13 +6,7 @@ import nltk
 import seaborn as sns
 import unidecode
 
-import utils as u
-
-df = u.df
-bag_of_words = u.bag_of_words
-regrassao_logistica = u.regrassao_logistica
-vetorizar = u.vetorizar
-matriz_esparsa_avaliacoes = u.matriz_esparsa_avaliacoes
+from utils import df, classificar_texto, grafico_frequencia
 
 todas_palavras = [texto for texto in df.avaliacao]
 todas_palavras = ' '.join([texto for texto in df.avaliacao])
@@ -38,8 +32,8 @@ todas_palavras = ' '.join([texto for texto in df.avaliacao])
 # plt.show()
 
 # Aplicando função
-# u.nuvem_palavras(df, 'avaliacao', 'negativo')
-# u.nuvem_palavras(df, 'avaliacao', 'positivo')
+# nuvem_palavras(df, 'avaliacao', 'negativo')
+# nuvem_palavras(df, 'avaliacao', 'positivo')
 
 # nltk.download('all')
 
@@ -84,9 +78,9 @@ df['tratamento_1'] = frase_processada
 
 # print(df.head())
 
-# u.classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado de 81,09%
+# classificar_texto(df, 'tratamento_1', 'sentimento') # Resultado de 81,09%
 
-# u.grafico_frequencia(df, 'tratamento_1', 20) # Ainda traz pontuação
+# grafico_frequencia(df, 'tratamento_1', 20) # Ainda traz pontuação
 
 # Exemplo
 # frase = 'Esse smartphone superou expectativas, recomendo'
@@ -107,7 +101,7 @@ df['tratamento_2'] = frase_processada
 # print(df['tratamento_1'][10]) # Antes do tratamento de pontuação
 # print(df['tratamento_2'][10]) # Depois do tratamento
 
-# u.grafico_frequencia(df, 'tratamento_2', 20)
+# grafico_frequencia(df, 'tratamento_2', 20)
 
 # Teste unidecode
 # frase = 'Um aparelho ótima performance preço bem menor outros aparelhos marcas conhecidas performance semelhante'
@@ -129,7 +123,7 @@ df['tratamento_3'] = frase_processada
 # print(df['tratamento_2'][70])
 # print(df['tratamento_3'][70])
 
-# u.grafico_frequencia(df, 'tratamento_3', 20)
+# grafico_frequencia(df, 'tratamento_3', 20)
 
 # Tratamento de case sensitive
 # frase = 'Bom produto otimo custo-beneficio Recomendo Confortavel bem acabado'
@@ -147,5 +141,20 @@ df['tratamento_4'] = frase_processada
 # print(df['tratamento_3'][3])
 # print(df['tratamento_4'][3])
 
-# u.classificar_texto(df, 'tratamento_4', 'sentimento') # Acuracia do tratamento 4 é 83, 75%
+# classificar_texto(df, 'tratamento_4', 'sentimento') # Acuracia do tratamento 4 é 83, 75%
 
+stemmer = nltk.RSLPStemmer()
+# print(stemmer.stem('gostei')) # Exemplo
+
+frase_processada = []
+for opiniao in df['tratamento_4']:
+    palavras_texto = token_pontuacao.tokenize(opiniao)
+    nova_frase = [stemmer.stem(palavra) for palavra in palavras_texto]
+    frase_processada.append(' '.join(nova_frase))
+    
+df['tratamento_5'] = frase_processada
+
+# print(df['tratamento_4'][3])
+# print(df['tratamento_5'][3])
+
+classificar_texto(df, 'tratamento_5', 'sentimento') # Acuracia do tratamento 5 é 85, 11%
