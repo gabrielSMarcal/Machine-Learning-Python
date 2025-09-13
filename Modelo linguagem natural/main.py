@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from wordcloud import WordCloud
 
-from utils import df, regrassao_logistica, SEED, classificar_texto, grafico_frequencia
+from utils import df, regressao_logistica, SEED, classificar_texto, grafico_frequencia
 
 todas_palavras = [texto for texto in df.avaliacao]
 todas_palavras = ' '.join([texto for texto in df.avaliacao])
@@ -174,8 +174,8 @@ tfidf = TfidfVectorizer(lowercase=False, max_features=50)
 
 '''TESTANDO COM TF-IDF BRUTO'''
 # X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_bruto, df['sentimento'], random_state=SEED)
-# regrassao_logistica.fit(X_treino, y_treino)
-# acuracia_tfidf_bruto = regrassao_logistica.score(X_teste, y_teste)
+# regressao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_bruto = regressao_logistica.score(X_teste, y_teste)
 # print(f'Acurácia do modelo com TF-IDF bruto: {acuracia_tfidf_bruto * 100:.2f}%')
 # Acurácia do modelo com TF-IDF bruto: 79,54%
 
@@ -183,8 +183,8 @@ tfidf = TfidfVectorizer(lowercase=False, max_features=50)
 tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
 
 # X_treino, X_teste, y_treino, y_teste = train_test_split(tfidf_tratado, df['sentimento'], random_state=SEED)
-# regrassao_logistica.fit(X_treino, y_treino)
-# acuracia_tfidf_tratado = regrassao_logistica.score(X_teste, y_teste)
+# regressao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_tratado = regressao_logistica.score(X_teste, y_teste)
 # print(f'Acurácia do modelo com TF-IDF tratado: {acuracia_tfidf_tratado * 100:.2f}%')
 # Acurácia do modelo com TF-IDF tratado: 85,14%
 
@@ -198,8 +198,8 @@ tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
 # tfidf_50 = TfidfVectorizer(lowercase=False, max_features=50, ngram_range=(1, 2))
 # vetor_tfidf = tfidf_50.fit_transform(df['tratamento_5'])
 # X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf, df['sentimento'], random_state=SEED)
-# regrassao_logistica.fit(X_treino, y_treino)
-# acuracia_tfidf_50 = regrassao_logistica.score(X_teste, y_teste)
+# regressao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_50 = regressao_logistica.score(X_teste, y_teste)
 # print(f'Acurácia do modelo com TF-IDF 50 e n-grams: {acuracia_tfidf_50 * 100:.2f}%')
 # Acurácia do modelo com TF-IDF e n-grams: 85,22%
 
@@ -207,12 +207,33 @@ tfidf_tratado = tfidf.fit_transform(df['tratamento_5'])
 # tfidf_100 = TfidfVectorizer(lowercase=False, max_features=100, ngram_range=(1, 2))
 # vetor_tfidf_100 = tfidf_100.fit_transform(df['tratamento_5'])
 # X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf_100, df['sentimento'], random_state=SEED)
-# regrassao_logistica.fit(X_treino, y_treino)
-# acuracia_tfidf_100 = regrassao_logistica.score(X_teste, y_teste)
+# regressao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_100 = regressao_logistica.score(X_teste, y_teste)
 # print(f'Acurácia do modelo com TF-IDF 100 e n-grams: {acuracia_tfidf_100 * 100:.2f}%')
 # Acurácia do modelo com TF-IDF e n-grams: 88,26%
 
 '''TESTANDO COM N-GRAMS E 1000 FEATURES'''
-
-
+tfidf_1000 = TfidfVectorizer(lowercase=False, max_features=1000, ngram_range=(1, 2)) # Selecionado para análise de pesos
+vetor_tfidf_1000 = tfidf_1000.fit_transform(df['tratamento_5'])
+X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf_1000, df['sentimento'], random_state=SEED)
+regressao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf_1000 = regressao_logistica.score(X_teste, y_teste)
+# print(f'Acurácia do modelo com TF-IDF 1000 e n-grams: {acuracia_tfidf_1000 * 100:.2f}%')
 # Acurácia do modelo com TF-IDF e n-grams: 91,85%
+
+'''TESTANDO COM N-GRAMS E TODAS AS FEATURES'''
+# tfidf = TfidfVectorizer(lowercase=False, ngram_range=(1, 2))
+# vetor_tfidf = tfidf.fit_transform(df['tratamento_5'])
+# X_treino, X_teste, y_treino, y_teste = train_test_split(vetor_tfidf, df['sentimento'], random_state=SEED)
+# regressao_logistica.fit(X_treino, y_treino)
+# acuracia_tfidf = regressao_logistica.score(X_teste, y_teste)
+# print(f'Acurácia do modelo com TF-IDF todas e n-grams: {acuracia_tfidf * 100:.2f}%')
+# Acurácia do modelo com TF-IDF e n-grams: 91,85% (Sem alterações comparado ao anterior)
+
+pesos = pd.DataFrame(
+    regressao_logistica.coef_[0].T,
+    index=tfidf_1000.get_feature_names_out()
+)
+# print(pesos.nlargest(50, 0)) # Palavras que mais indicam sentimento positivo
+# print(pesos.nsmallest(50, 0)) # Palavras que mais indicam sentimento negativo
+

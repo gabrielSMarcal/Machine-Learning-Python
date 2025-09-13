@@ -40,9 +40,9 @@ matriz_esparsa_avaliacoes = pd.DataFrame.sparse.from_spmatrix(bag_of_words, colu
 X_treino, X_teste, y_treino, y_teste = train_test_split(bag_of_words, df.sentimento, test_size=0.2,
                                                         random_state=SEED)
 
-regrassao_logistica = LogisticRegression()
-regrassao_logistica.fit(X_treino, y_treino)
-# acuracia = regrassao_logistica.score(X_teste, y_teste)
+regressao_logistica = LogisticRegression()
+regressao_logistica.fit(X_treino, y_treino)
+# acuracia = regressao_logistica.score(X_teste, y_teste)
 # print(f'A acurácia do modelo foi de {acuracia * 100:.2f}%')
 
 def nuvem_palavras(texto, coluna_texto, sentimento):
